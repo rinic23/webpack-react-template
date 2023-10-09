@@ -6,6 +6,7 @@ import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 import type { Configuration } from 'webpack';
 import 'webpack-dev-server';
 import { isFilledItem } from './src/utils/typeguards';
+import CopyPlugin from 'copy-webpack-plugin';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -114,6 +115,15 @@ const config: Configuration = {
             minifyCSS: true,
             minifyURLs: true,
           },
+    }),
+    new CopyPlugin({
+      patterns: [
+        { from: 'public' },
+        'public', // absolute or relative, files/directories/globs - see below for examples
+      ],
+      options: {
+        concurrency: 100,
+      },
     }),
     // Webpack plugin to enable "Fast Refresh" (also known as Hot Reloading) for React components.
     isDevelopment && new ReactRefreshWebpackPlugin(),
